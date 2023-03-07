@@ -1,3 +1,3 @@
 # README #
 ### Chess05 ###
-* First Commit done
+* By Pavitra Patel & Huzaif Mansuri
