@@ -1,3 +1,5 @@
+package chess;
+
 import java.util.Scanner;
 
 public class Chess
@@ -55,43 +57,58 @@ public class Chess
 	//Initialize a default/initial chess board
 	public static void initChessBoard(Board[][] board)
 	{
-		board[0][0] = board[0][7] = board[7][0] = board[7][7] = new Rook();
-		board[0][1] = board[0][6] = board[7][1] = board[7][6] = new Knight();
-		board[0][2] = board[0][5] = board[7][2] = board[7][5] = new Bishop();
-		board[0][3] = board[7][3] = new Queen();
-		board[0][4] = board[7][4] = new King();
-
+		board[0][0] = new Rook();
+		board[0][7] = new Rook();
+		board[7][0] = new Rook();
+		board[7][7] = new Rook();
+		
+		board[0][1] = new Knight();
+		board[0][6] = new Knight();
+		board[7][1] = new Knight();
+		board[7][6] = new Knight();
+		
+		board[0][2] = new Bishop();
+		board[0][5] = new Bishop();
+		board[7][2] = new Bishop();
+		board[7][5] = new Bishop();
+		
+		board[0][3] = new Queen();
+		board[7][3] = new Queen();
+		
+		board[0][4] = new King();
+		board[7][4] = new King();
+		
 		for(int i=0; i<1; i++)
-		{
-			for(int j=0; j<8; j++)
-			{
-				board[i][j].setColor("b");
-			}
-		}
-
-		for(int i=7; i<8; i++)
 		{
 			for(int j=0; j<8; j++)
 			{
 				board[i][j].setColor("w");
 			}
 		}
-
+		
+		for(int i=7; i<8; i++)
+		{
+			for(int j=0; j<8; j++)
+			{
+				board[i][j].setColor("b");
+			}
+		}
+		
 		for(int i=1; i<2; i++)
 		{
 			for(int j=0; j<8; j++)
 			{
 				board[i][j] = new Pawn();
-				board[i][j].setColor("b");
+				board[i][j].setColor("w");
 			}
 		}
-
+		
 		for(int i=6; i<7; i++)
 		{
 			for(int j=0; j<8; j++)
 			{
 				board[i][j] = new Pawn();
-				board[i][j].setColor("w");
+				board[i][j].setColor("b");
 			}
 		}
 	}
@@ -102,7 +119,7 @@ public class Chess
 	{
 		int vertIndex = 9;
 		char horiIndex = 'a';
-		for(int i=0; i<8; i++)
+		for(int i=7; i>=0; i--)
 		{
 			for(int j=0; j<8; j++)
 			{
