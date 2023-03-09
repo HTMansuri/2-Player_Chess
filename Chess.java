@@ -8,51 +8,99 @@ public class Chess
 	{
 		//variables
 		String input = "";
+		String color = "";
 		int turn = 0;
-
+		boolean status = true;
+		
 		Scanner sc = new Scanner(System.in);
-
+		
 		//Initialize a default/initial chess board
 		Board[][] board = new Board[8][8];
 		initChessBoard(board);
-
+		
 		do
 		{
 			//Display current chess board
-			displayChessBoard(board);
+			if(status)
+			{
+				displayChessBoard(board);
+			}
+			
 			System.out.println("\n");
 			if(turn%2 != 0)
 			{
-				String color = "b";
+				color = "b";
 				System.out.print("Black's move: ");
 			}
 			else
 			{
-				String color = "w";
+				color = "w";
 				System.out.print("White's move: ");
 			}
 			turn++;
 			input = sc.nextLine();
-
-			int initiali = Character.getNumericValue(input.charAt(1));
-			//System.out.println("initiali" + initiali);
-			int finali = Character.getNumericValue(input.charAt(4));
-			//System.out.println("finali" + finali);
-
+			
+			int initiali = Character.getNumericValue(input.charAt(1))-1;
+			//System.out.println(initiali);
+			int finali = Character.getNumericValue(input.charAt(4))-1;
+			//System.out.println(finali);
+			
 			int initialj = input.charAt(0) - 97;
-			//System.out.println("initialj" + initialj);
+			//System.out.println(initialj);
 			int finalj = input.charAt(3) - 97;
-			//System.out.println("finalj" + finalj);
-
+			//System.out.println(finalj);
+			
+			//checks for valid cases
+			if(initiali < 0 && initiali > 7 && initialj < 0 && initialj > 7 && finali < 0 && finali > 7 && finalj < 0 && finalj > 7)
+			{
+				status = false;
+			}
+			else if(board[initiali][initialj] == null)
+			{
+				status = false;
+			}
+			else if(!(board[initiali][initialj].getColor().equals(color)))
+			{
+				status = false;
+			}
+			else
+			{
+				if(board[finali][finalj] != null)
+				{
+					if(board[initiali][initialj].getColor().equals(board[finali][finalj].getColor()))
+					{
+						status = false;
+					}
+					else
+					{
+						status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
+					}
+				}
+				else
+				{
+					status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
+				}
+			}
+			
+			if(status)
+			{
+				board[finali][finalj] = board[initiali][initialj].move(board[finali][finalj]);
+				board[initiali][initialj] = null;
+			}
+			else
+			{
+				System.out.println("Illegal move, try again");
+				turn--;
+			}
 			System.out.println();
 		}
-		while(turn<10);
-
+		while(turn<100);
+		
 		//close
 		sc.close();
 	}
-
-
+	
+	
 	//methods
 	//Initialize a default/initial chess board
 	public static void initChessBoard(Board[][] board)
@@ -112,8 +160,8 @@ public class Chess
 			}
 		}
 	}
-
-
+	
+	
 	//Display current chess board
 	public static void displayChessBoard(Board[][] board)
 	{
