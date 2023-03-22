@@ -15,13 +15,81 @@ public class Bishop extends Board
 	
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
-		//TODO
-		return true;
+		boolean status = false;
+		
+		if(Math.abs(initiali-finali) == Math.abs(initialj-finalj))
+		{
+			status = true;
+			if(initiali > finali && initialj > finalj)
+			{
+				initiali--;
+				initialj--;
+				while(initiali > finali && initialj > finalj)
+				{
+					if(board[initiali][initialj] != null)
+					{
+						return false;
+					}
+					initiali--;
+					initialj--;
+				}
+			}
+			else if(initiali < finali && initialj < finalj)
+			{
+				initiali++;
+				initialj++;
+				while(initiali < finali && initialj < finalj)
+				{
+					if(board[initiali][initialj] != null)
+					{
+						return false;
+					}
+					initiali++;
+					initialj++;
+				}
+			}
+			else if(initiali < finali && initialj > finalj)
+			{
+				initiali++;
+				initialj--;
+				while(initiali < finali && initialj > finalj)
+				{
+					if(board[initiali][initialj] != null)
+					{
+						return false;
+					}
+					initiali++;
+					initialj--;
+				}
+			}
+			else if(initiali > finali && initialj < finalj)
+			{
+				initiali--;
+				initialj++;
+				while(initiali > finali && initialj < finalj)
+				{
+					if(board[initiali][initialj] != null)
+					{
+						return false;
+					}
+					initiali--;
+					initialj++;
+				}
+			}
+			else
+			{
+				status = false;
+			}
+		}
+		
+		return status;
 	}
 	
-	public Board move(Board obj) 
+	public Board move(Board obj)
 	{
-		// TODO Auto-generated method stub
+		obj = new Bishop();
+		obj.setColor(this.getColor());
+		obj.setName(this.getName());
 		return obj;
 	}
 	
