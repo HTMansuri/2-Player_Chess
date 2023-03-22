@@ -15,7 +15,11 @@ public class Knight extends Board
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
 		//TODO
-		return true;
+		int iChange=finali-initiali;
+		int jChange=finalj-initialj;
+		if((Math.abs(iChange)==1 && Math.abs(jChange)==2) || (Math.abs(jChange)==1 && Math.abs(iChange)==2))
+			return true;
+		return false;
 	}
 	
 	public Board move(Board obj)

@@ -16,7 +16,15 @@ public class King extends Board
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
 		//TODO
-		return true;
+		int iChange = finali-initiali;
+		int jChange = finalj-initialj;
+		if(iChange*jChange==0 && Math.abs(iChange+jChange)==1) {
+				return true;
+		}
+		else if(Math.abs(iChange)+Math.abs(jChange)==2 && iChange*jChange!=0){
+			return true;
+		}
+		return false;
 	}
 	
 	public Board move(Board obj)
