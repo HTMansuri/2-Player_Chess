@@ -15,6 +15,10 @@ public class King extends Board
 	
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
+<<<<<<< HEAD
+=======
+		//TODO
+>>>>>>> 10dfd4bcfd1a96646e8390adfd2607eb4587bffe
 		int iChange = finali-initiali;
 		int jChange = finalj-initialj;
 		if(iChange*jChange==0 && Math.abs(iChange+jChange)==1) {
