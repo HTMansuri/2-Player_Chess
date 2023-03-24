@@ -14,10 +14,6 @@ public class Knight extends Board
 	
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
-<<<<<<< HEAD
-=======
-		//TODO
->>>>>>> 10dfd4bcfd1a96646e8390adfd2607eb4587bffe
 		int iChange=finali-initiali;
 		int jChange=finalj-initialj;
 		if((Math.abs(iChange)==1 && Math.abs(jChange)==2) || (Math.abs(jChange)==1 && Math.abs(iChange)==2))

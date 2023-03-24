@@ -5,6 +5,8 @@ public class Pawn extends Board
 	//class variables
 	private String color;
 	private String name;
+	public static Boolean enPassant = false;
+	public static String enPassantPos;
 	
 	//constructors
 	public Pawn()
@@ -22,16 +24,31 @@ public class Pawn extends Board
 			if(iChange==1 || iChange==2) {
 				if((iChange==1 && jChange == 0)) {
 					if((board[finali][finalj] == null)) {
-						return true;
+						{
+							return true;
+						}
 					}
 				}
 				else if((iChange==2 && jChange == 0) && initiali==1) {
 					if((board[initiali+1][initialj] == null) && (board[finali][finalj] == null))
-						return true;
+						{
+							if((finalj-1>=0 && board[finali][finalj-1] != null && board[finali][finalj-1].getName().equals("p") && board[finali][finalj-1].getColor().equals("b"))||(finalj+1<8 && board[finali][finalj+1] != null && board[finali][finalj+1].getName().equals("p") && board[finali][finalj+1].getColor().equals("b")))
+								{
+									enPassantPos = String.valueOf(finali)+String.valueOf(finalj);
+									enPassant = true;
+								}
+							return true;
+						}
 				}
 				else if((iChange==1 && jChange == 1) || (iChange==1 && jChange == -1)) {
 					if((board[finali][finalj] != null) && (board[finali][finalj].getColor()=="b"))
+						{
+							return true;
+						}
+					else if(enPassant && enPassantPos.equals(String.valueOf(finali-1)+String.valueOf(finalj))) {
+						board[finali-1][finalj] = null;
 						return true;
+					}
 				}
 			}
 			return false;
@@ -47,19 +64,32 @@ public class Pawn extends Board
 				}
 				else if((iChange==-2 && jChange == 0) && initiali==6) {
 					if((board[initiali-1][initialj] == null) && (board[finali][finalj] == null))
+					{
+						if((finalj-1>=0 && board[finali][finalj-1] != null && board[finali][finalj-1].getName().equals("p") && board[finali][finalj-1].getColor().equals("w"))||(finalj+1<8 && board[finali][finalj+1] != null && board[finali][finalj+1].getName().equals("p") && board[finali][finalj+1].getColor().equals("w")))
+						{
+							enPassantPos = String.valueOf(finali)+String.valueOf(finalj);
+							enPassant = true;
+						}
 						return true;
+					}
 				}
 				else if((iChange==-1 && jChange == -1) || (iChange==-1 && jChange == 1)) {
 					if((board[finali][finalj] != null) && (board[finali][finalj].getColor()=="w"))
+						{
+							return true;
+						}
+					else if(enPassant && enPassantPos.equals(String.valueOf(finali+1)+String.valueOf(finalj))) {
+						board[finali+1][finalj] = null;
 						return true;
+					}
 				}
 			}
 			return false;
 			}
 	}
 	
-	public Board move(Board obj) {
-		// TODO Auto-generated method stub
+	public Board move(Board obj)
+	{
 		obj = new Pawn();
 		obj.setColor(this.getColor());
 		obj.setName(this.getName());
