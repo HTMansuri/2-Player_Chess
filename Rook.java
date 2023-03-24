@@ -19,7 +19,7 @@ public class Rook extends Board
 	{
 		boolean status = false;
 		
-		if(initiali == finali)
+		if(initiali == finali)	
 		{
 			status = true;
 			if(initialj < finalj) // example moving from (0,0) to (0,7)

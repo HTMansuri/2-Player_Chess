@@ -1,10 +1,12 @@
 package chess;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Chess
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws FileNotFoundException
 	{
 		//variables
 		String input = "";
@@ -18,15 +20,18 @@ public class Chess
 		int wchecki = 0;
 		int wcheckj = 4;
 		boolean check = false;
+		boolean checkMate = false;
 		
-		Scanner sc = new Scanner(System.in);
-		
+		File inputFile = new File("input.txt");
+		Scanner sc = new Scanner(inputFile);
+		Scanner kb = new Scanner(System.in);
 		//Initialize a default/initial chess board
 		Board[][] board = new Board[8][8];
 		initChessBoard(board);
 		
 		do
 		{
+			
 			//Display current chess board
 			if(status)
 			{
@@ -45,14 +50,20 @@ public class Chess
 				color = "w";
 				System.out.print("White's move: ");
 			}
-			input = sc.nextLine().trim();
-			
+			if(sc.hasNext()) {
+				input = sc.nextLine().trim();
+				System.out.println(input);
+			}
+			else {
+				input = kb.nextLine().trim();
+			}
+				
 			
 			if(input.equals("resign") || (input.length()>5 && input.substring(6).equals("draw?")))
 			{
 				break;
 			}
-			if(input.equals("") || input.charAt(2)!=' ' || input.charAt(0)<'a' || input.charAt(0)>'h' || input.charAt(3)<'a' || input.charAt(3)>'h' || input.charAt(1)<'0' || input.charAt(1)>'7' || input.charAt(4)<'0' || input.charAt(4)>'7')
+			if(input.equals("") || input.charAt(2)!=' ' || input.charAt(0)<'a' || input.charAt(0)>'h' || input.charAt(3)<'a' || input.charAt(3)>'h' || input.charAt(1)<'1' || input.charAt(1)>'8' || input.charAt(4)<'1' || input.charAt(4)>'8')
 			{
 				status=false;
 				System.out.println("Illegal move, try again");
@@ -84,6 +95,9 @@ public class Chess
 				System.out.println("Illegal move, try again");
 				continue;
 			}
+			
+			Board finalCache = null;
+			Board initialCache = null;
 			
 			//checks for valid cases
 //			if(initiali < 0 || initiali > 7 || initialj < 0 || initialj > 7 || finali < 0 || finali > 7 || finalj < 0 || finalj > 7)
@@ -221,9 +235,13 @@ public class Chess
 							status = false;
 					}
 				}
+				
 				if(status && promotionKey==null)
 				{
+					//String finalCache = board[finali][finalj].getName()+board[finali][finalj].getColor();
+					finalCache = board[finali][finalj];
 					board[finali][finalj] = board[initiali][initialj].move(board[finali][finalj]);
+					initialCache = board[initiali][initialj];
 					board[initiali][initialj] = null;
 					//keeps track of i and j for check identification
 					if(board[finali][finalj].getName().equals("K"))
@@ -241,52 +259,6 @@ public class Chess
 					}
 				}
 			}
-			
-			//region of check
-			String c = "";
-			if(board[finali][finalj]!=null)
-				c = board[finali][finalj].getColor();
-			if(c.equals("w"))
-			{
-				check = check(board, wchecki, wcheckj);
-			}
-			else
-			{
-				check = check(board, bchecki, bcheckj);
-			}
-
-			if(check)
-			{
-				status=false;
-				board[initiali][initialj] = board[finali][finalj].move(board[initiali][initialj]);
-				board[finali][finalj] = null;
-			}
-			
-			
-			
-			
-			if(!status)
-			{
-				System.out.println("Illegal move, try again");
-				continue;
-			}
-			
-			//opposite move check
-			if(c.equals("b"))
-			{
-				check = check(board, wchecki, wcheckj);
-			}
-			else
-			{
-				check = check(board, bchecki, bcheckj);
-			}
-			
-			if(check)
-			{
-				System.out.println("Check");
-			}
-			
-			
 			
 			//if the rooks or kings move then castling is disabled
 			if(board[finali][finalj] != null)
@@ -331,11 +303,81 @@ public class Chess
 				}
 			}
 			
+			//region of check
+			String c = "";
+			if(board[finali][finalj]!=null)
+				c = board[finali][finalj].getColor();
+			if(c.equals("w"))
+			{
+				check = check(board, wchecki, wcheckj);
+			}
+			else
+			{
+				check = check(board, bchecki, bcheckj);
+			}
+
+			if(check)
+			{
+				status=false;
+				board[finali][finalj] = finalCache;
+				board[initiali][initialj] = initialCache;
+				if(board[initiali][initialj].getName().equals("K")) 
+				{
+					if(board[initiali][initialj].getColor().equals("w"))
+					{
+						wchecki = initiali;
+						wcheckj = initialj;
+					}
+					else
+					{
+						bchecki = initiali;
+						bcheckj = initialj;
+					}
+				}
+			}
+			
+			
+			if(!status)
+			{
+				System.out.println("Illegal move, try again");
+				continue;
+			}
+			
+			//opposite move check
+			if(c.equals("b"))
+			{
+				check = check(board, wchecki, wcheckj);
+			}
+			else
+			{
+				check = check(board, bchecki, bcheckj);
+			}
+			if(check)
+			{
+				if(c.equals("b"))
+					checkMate = checkMate(board, wchecki, wcheckj);
+				else
+					checkMate = checkMate(board, bchecki, bcheckj);
+				
+				if(checkMate) {
+					System.out.println();
+					displayChessBoard(board);
+					System.out.println("\nCheckMate");
+					if(c.equals("b"))
+						System.out.println("Black wins");
+					else
+						System.out.println("White wins");
+					
+				}
+				else
+					System.out.println("Check");
+			}
+			
 			if(status)
 				System.out.println();
 			turn++;
 		}
-		while(turn<100);
+		while(!checkMate);
 		
 		if(input.length()>5 && input.substring(6).equals("draw?"))
 		{
@@ -357,13 +399,14 @@ public class Chess
 		
 		//close
 		sc.close();
+		kb.close();
 	}
 	
 	
 	//methods
 	
 	//method that identifies check for given King - returns true if check is detected
-	//i will need to keep track of where my king is after any move to make this method work
+	//i will need to keep track of where my king is after any move to make this method work	
 	public static boolean check(Board[][] board, int kingi, int kingj)
 	{
 		boolean check;
@@ -384,6 +427,94 @@ public class Chess
 		}
 		return false;
 	}
+	public static boolean reachHere(Board[][] board, int finali, int finalj, String color)
+	{
+		boolean reached;
+		for(int i=7; i>=0; i--)
+		{
+			for(int j=0; j<=7; j++)
+			{
+				if(board[i][j] != null && !board[i][j].getName().equals("K") && board[i][j].getColor().equals(color))
+				{
+					reached = board[i][j].isValid(board, i, j, finali, finalj);
+					if(reached) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean checkMate(Board[][] board, int kingi, int kingj) {
+		boolean checkMate;
+		for(int i=7; i>=0; i--)
+		{
+			for(int j=0; j<=7; j++)
+			{
+				String color="";
+				if(board[i][j]!=null)
+					color = board[i][j].getColor();
+				if(board[i][j] != null && !board[kingi][kingj].getColor().equals(color))
+				{
+					checkMate = board[i][j].isValid(board, i, j, kingi, kingj);
+					if(checkMate)
+					{
+						for(int p=-1; p<=1; p++)
+						{
+							for(int q=1; q>=-1; q--)
+							{
+								if(kingi-p<0 || kingi-p>7 || kingj-q<0 || kingj-q>7 || (board[kingi-p][kingj-q]!=null && !board[kingi-p][kingj-q].getColor().equals(color))) 
+									{
+										continue;
+									}
+								else {
+									if(board[kingi-p][kingj-q]==null)
+										board[kingi-p][kingj-q] = board[kingi][kingj];
+									boolean check = reachHere(board,kingi-p,kingj-q,color);
+									if(board[kingi-p][kingj-q]==board[kingi][kingj])
+										board[kingi-p][kingj-q]=null;
+									if(!check) {
+										checkMate = false;
+										return checkMate;
+									}
+								}
+							}
+						}
+						color = board[kingi][kingj].getColor();
+						// region of code to check if we can kill check giving knight
+						if(board[i][j].getName().equals("N")) 
+						{
+								if(reachHere(board,i,j,color))
+								{
+									checkMate = false;
+								}
+								return checkMate;
+						}
+						// region of code to check if we can defend by killing the check giving piece or by bringing the piece in between.
+						int iChange = 0;
+						int jChange = 0;
+						int x = i, y=j;
+						if(x-kingi != 0)
+							iChange = (kingi-x)/Math.abs(x-kingi);
+						if(y-kingj!=0)
+							jChange = (kingj-y)/Math.abs(y-kingj);
+						while(x!=kingi && y!=kingj) 
+						{
+							if(reachHere(board,x,y,color)) 
+							{
+								checkMate = false;
+								return checkMate;
+							}
+							x += iChange;
+							y += jChange;
+						}
+					}
+				}
+			}
+		}
+		return true;
+		}
 	
 	//Initialize a default/initial chess board
 	public static void initChessBoard(Board[][] board)
