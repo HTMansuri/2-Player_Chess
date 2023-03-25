@@ -1,6 +1,5 @@
 package chess;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
@@ -22,8 +21,6 @@ public class Chess
 		boolean check = false;
 		boolean checkMate = false;
 		
-		File inputFile = new File("input.txt");
-		Scanner sc = new Scanner(inputFile);
 		Scanner kb = new Scanner(System.in);
 		//Initialize a default/initial chess board
 		Board[][] board = new Board[8][8];
@@ -43,43 +40,46 @@ public class Chess
 			if(turn%2 != 0)
 			{
 				color = "b";
+				if(check && input.length()<=5 && !input.substring(6).equals("draw?"))
+					System.out.println("Check");
 				System.out.print("Black's move: ");
 			}
 			else
 			{
 				color = "w";
+				if(check && input.length()<=5 && !input.substring(6).equals("draw?"))
+					System.out.println("Check");
 				System.out.print("White's move: ");
 			}
-			if(sc.hasNext()) {
-				input = sc.nextLine().trim();
-				System.out.println(input);
-			}
-			else {
-				input = kb.nextLine().trim();
-			}
+			
+			input = kb.nextLine().trim();
 				
 			
-			if(input.equals("resign") || (input.length()>5 && input.substring(6).equals("draw?")))
+			if(input.equals("resign"))
 			{
+				if(turn%2 != 0)
+				{
+					System.out.println("White wins");
+				}
+				else
+				{
+					System.out.println("Black wins");
+				}
 				break;
 			}
 			if(input.equals("") || input.charAt(2)!=' ' || input.charAt(0)<'a' || input.charAt(0)>'h' || input.charAt(3)<'a' || input.charAt(3)>'h' || input.charAt(1)<'1' || input.charAt(1)>'8' || input.charAt(4)<'1' || input.charAt(4)>'8')
 			{
 				status=false;
-				System.out.println("Illegal move, try again");
+				System.out.println("1111Illegal move, try again");
 				continue;
 			}
 			
 			
 			int initiali = Character.getNumericValue(input.charAt(1))-1;
-			//System.out.println(initiali);
 			int finali = Character.getNumericValue(input.charAt(4))-1;
-			//System.out.println(finali);
 			
 			int initialj = input.charAt(0) - 97;
-			//System.out.println(initialj);
 			int finalj = input.charAt(3) - 97;
-			//System.out.println(finalj);
 			String promotionKey = null;
 			
 			if((finali==7 && board[initiali][initialj].getName()=="p") || (finali==0 && board[initiali][initialj].getName()=="p"))
@@ -89,10 +89,10 @@ public class Chess
 				else
 					promotionKey = "Q";
 			}
-			else if(input.length()>5)
+			else if(input.length()>5 && !input.substring(6).equals("draw?"))
 			{
 				status=false;
-				System.out.println("Illegal move, try again");
+				System.out.println("2222Illegal move, try again");
 				continue;
 			}
 			
@@ -339,7 +339,7 @@ public class Chess
 			
 			if(!status)
 			{
-				System.out.println("Illegal move, try again");
+				System.out.println("3333Illegal move, try again");
 				continue;
 			}
 			
@@ -359,7 +359,8 @@ public class Chess
 				else
 					checkMate = checkMate(board, bchecki, bcheckj);
 				
-				if(checkMate) {
+				if(checkMate && input.length()<=5 && !input.substring(6).equals("draw?"))
+				{
 					System.out.println();
 					displayChessBoard(board);
 					System.out.println("\nCheckMate");
@@ -369,8 +370,14 @@ public class Chess
 						System.out.println("White wins");
 					
 				}
-				else
-					System.out.println("Check");
+//				else
+//					System.out.println("Check");
+			}
+						
+			if(status && input.length()>5 && input.substring(6).equals("draw?"))
+			{
+				System.out.print("draw");
+				break;
 			}
 			
 			if(status)
@@ -379,26 +386,7 @@ public class Chess
 		}
 		while(!checkMate);
 		
-		if(input.length()>5 && input.substring(6).equals("draw?"))
-		{
-			String draw = sc.nextLine();
-			while(!draw.equals("draw"))
-				draw = sc.nextLine();
-		}
-		else if(input.equals("resign"))
-		{
-			if(turn%2 != 0)
-			{
-				System.out.println("White wins");
-			}
-			else
-			{
-				System.out.println("Black wins");
-			}
-		}
-		
 		//close
-		sc.close();
 		kb.close();
 	}
 	
