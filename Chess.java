@@ -19,6 +19,7 @@ public class Chess
 		int wchecki = 0;
 		int wcheckj = 4;
 		boolean check = false;
+		boolean checkPrint1 = false;
 		boolean checkMate = false;
 		
 		Scanner kb = new Scanner(System.in);
@@ -32,6 +33,7 @@ public class Chess
 			//Display current chess board
 			if(status)
 			{
+				checkPrint1 = false;
 				displayChessBoard(board);
 			}
 			
@@ -40,16 +42,18 @@ public class Chess
 			if(turn%2 != 0)
 			{
 				color = "b";
-				if(check && input.length()<=5 && !input.substring(6).equals("draw?"))
+				if(!checkPrint1 && check && input.length()<=5)
 					System.out.println("Check");
 				System.out.print("Black's move: ");
+				checkPrint1 = true;
 			}
 			else
 			{
 				color = "w";
-				if(check && input.length()<=5 && !input.substring(6).equals("draw?"))
+				if(!checkPrint1 && check && input.length()<=5)
 					System.out.println("Check");
 				System.out.print("White's move: ");
+				checkPrint1 = true;
 			}
 			
 			input = kb.nextLine().trim();
@@ -126,13 +130,16 @@ public class Chess
 						if(Pawn.enPassant)
 						{
 							status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
-							if(status) {
+							if(status)
+							{
 								Pawn.enPassant = false;
 								Pawn.enPassantPos=null;
 							}
 						}
 						else
-							status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);						
+						{
+							status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
+						}
 					}
 				}
 				else
@@ -140,7 +147,8 @@ public class Chess
 					if(Pawn.enPassant)
 					{
 						status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
-						if(status) {
+						if(status) 
+						{
 							Pawn.enPassant = false;
 							Pawn.enPassantPos=null;
 						}
