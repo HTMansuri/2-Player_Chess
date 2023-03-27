@@ -74,7 +74,7 @@ public class Chess
 			if(input.equals("") || input.charAt(2)!=' ' || input.charAt(0)<'a' || input.charAt(0)>'h' || input.charAt(3)<'a' || input.charAt(3)>'h' || input.charAt(1)<'1' || input.charAt(1)>'8' || input.charAt(4)<'1' || input.charAt(4)>'8')
 			{
 				status=false;
-				System.out.println("1111Illegal move, try again");
+				System.out.println("Illegal move, try again");
 				continue;
 			}
 			
@@ -96,19 +96,13 @@ public class Chess
 			else if(input.length()>5 && !input.substring(6).equals("draw?"))
 			{
 				status=false;
-				System.out.println("2222Illegal move, try again");
+				System.out.println("Illegal move, try again");
 				continue;
 			}
 			
 			Board finalCache = null;
 			Board initialCache = null;
-			
-			//checks for valid cases
-//			if(initiali < 0 || initiali > 7 || initialj < 0 || initialj > 7 || finali < 0 || finali > 7 || finalj < 0 || finalj > 7)
-//			{
-//				status = false;
-//			}
-//			else if niche			
+					
 			if(board[initiali][initialj] == null)
 			{
 				status = false;
@@ -246,7 +240,6 @@ public class Chess
 				
 				if(status && promotionKey==null)
 				{
-					//String finalCache = board[finali][finalj].getName()+board[finali][finalj].getColor();
 					finalCache = board[finali][finalj];
 					board[finali][finalj] = board[initiali][initialj].move(board[finali][finalj]);
 					initialCache = board[initiali][initialj];
@@ -347,7 +340,7 @@ public class Chess
 			
 			if(!status)
 			{
-				System.out.println("3333Illegal move, try again");
+				System.out.println("Illegal move, try again");
 				continue;
 			}
 			
@@ -378,8 +371,6 @@ public class Chess
 						System.out.println("White wins");
 					
 				}
-//				else
-//					System.out.println("Check");
 			}
 						
 			if(status && input.length()>5 && input.substring(6).equals("draw?"))
