@@ -1,3 +1,8 @@
+/**
+ * This program is a simple implementation of a command-line 2-player chess game.
+ * 
+ * @author Pavitra Patel, Huzaif Mansuri
+ */
 package chess;
 
 import java.io.FileNotFoundException;
@@ -7,17 +12,36 @@ public class Chess
 {
 	public static void main(String[] args) throws FileNotFoundException
 	{
-		//variables
+		/**
+		 * Stores the input given by the user.
+		 */
 		String input = "";
+		/**
+		 * Stores the color of the piece.
+		 */
 		String color = "";
+		/**
+		 * Determines whose turn to play.
+		 */
 		int turn = 0;
+		/**
+		 * Status is true if a player plays a valid move.
+		 */
 		boolean status = true;
-		
-		//variables to identify check
+		/**
+		 * Keeps track of where the Black King is on the chess board.
+		 */
 		int bchecki = 7;
 		int bcheckj = 4;
+		/**
+		 * Keeps track of where the White King is on the chess board.
+		 */
 		int wchecki = 0;
 		int wcheckj = 4;
+		
+		/**
+		 * Variables that keep track of check and checkmate.
+		 */
 		boolean check = false;
 		boolean checkPrint1 = false;
 		boolean checkMate = false;
@@ -29,7 +53,6 @@ public class Chess
 		
 		do
 		{
-			
 			//Display current chess board
 			if(status)
 			{
@@ -39,6 +62,8 @@ public class Chess
 			
 			if(status)
 				System.out.println("\n");
+			
+			//Determines turn of the next player
 			if(turn%2 != 0)
 			{
 				color = "b";
@@ -56,9 +81,12 @@ public class Chess
 				checkPrint1 = true;
 			}
 			
+			//Takes input from the command-line
 			input = kb.nextLine().trim();
 				
-			
+			/**
+			 * When a player inputs "resign", the other player wins and the game ends.
+			 */
 			if(input.equals("resign"))
 			{
 				if(turn%2 != 0)
@@ -71,6 +99,10 @@ public class Chess
 				}
 				break;
 			}
+			
+			/**
+			 * 
+			 */
 			if(input.equals("") || input.charAt(2)!=' ' || input.charAt(0)<'a' || input.charAt(0)>'h' || input.charAt(3)<'a' || input.charAt(3)>'h' || input.charAt(1)<'1' || input.charAt(1)>'8' || input.charAt(4)<'1' || input.charAt(4)>'8')
 			{
 				status=false;
