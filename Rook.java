@@ -1,20 +1,41 @@
 package chess;
 
+/**
+ * This class represents a rook in the game of chess.
+ * 
+ * @author Pavitra Patel, Huzaif Mansuri
+ */
 public class Rook extends Board
 {
-	//class variables
+	/**
+	 * The color of the Rook piece. (usually "b" or "w")
+	 */
 	private String color;
+	/**
+	 * The name of the Rook piece. (usually "R")
+	 */
 	private String name;
 	
-	//constructors
+	/**
+     * Constructs a new Rook object with default values.
+     */
 	public Rook()
 	{
 		color="";
 		name = "R";
 	}
 	
-	//other methods
-	//method to check whether the move is valid or not
+	/**
+     * Determines if the rook's move from its initial position to its final position
+     * is a valid move on the given chess board.
+     *
+     * @param board     the chess board on which the move is made
+     * @param initiali  the initial column position of the rook
+     * @param initialj  the initial row position of the rook
+     * @param finali    the final column position of the rook
+     * @param finalj    the final row position of the rook
+     * @return          true if the move is valid, false otherwise
+     */
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
 		boolean status = false;
@@ -81,6 +102,12 @@ public class Rook extends Board
 		return status;
 	}
 	
+	/**
+     * Moves the rook to a new position on the chess board.
+     *
+     * @param obj   the new position for the rook
+     * @return      a new Rook object with the specified color
+     */
 	public Board move(Board obj)
 	{
 		obj = new Rook();
@@ -89,22 +116,41 @@ public class Rook extends Board
 		return obj;
 	}
 	
-	//set methods
+	/**
+     * Sets the color of the rook.
+     *
+     * @param c     the color of the rook
+     */
 	public void setColor(String c)
 	{
 		color=c;
 	}
 	
+	/**
+     * Sets the name of the rook.
+     *
+     * @param n     the name of the rook (usually "R")
+     */
 	public void setName(String n)
 	{
 		name = n;
 	}
 	
-	//get methods
+	/**
+     * Gets the color of the rook.
+     *
+     * @return  the color of the rook
+     */
 	public String getColor()
 	{
 		return color;
 	}
+	
+	/**
+     * Gets the name of the rook.
+     *
+     * @return  the name of the rook (usually "R")
+     */
 	public String getName()
 	{
 		return name;

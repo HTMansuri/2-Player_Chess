@@ -2,11 +2,18 @@ package chess;
 
 /**
  * This class represents a bishop in the game of chess.
+ * 
+ * @author Pavitra Patel, Huzaif Mansuri
  */
 public class Bishop extends Board
 {
-	//class variables
+	/**
+	 * The color of the Bishop piece. (usually "b" or "w")
+	 */
 	private String color;
+	/**
+	 * The name of the Bishop piece. (usually "B")
+	 */
 	private String name;
 	
 	/**
