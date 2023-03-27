@@ -14,7 +14,7 @@ public abstract class Board
     {
     	
     }
- 
+    
     
     /**
      * This is an abstract method that should be implemented to make a move on the board.
@@ -29,10 +29,10 @@ public abstract class Board
      * This is an abstract method that should be implemented to determine if a move is valid on the board.
      *
      * @param board		 a 2D array representing the current state of the board
-     * @param initiali	 the initial row of the piece being moved
-     * @param initialj	 the initial column of the piece being moved
-     * @param finali	 the final row of the piece being moved
-     * @param finalj	 the final column of the piece being moved
+     * @param initiali	 the initial column of the piece being moved
+     * @param initialj	 the initial row of the piece being moved
+     * @param finali	 the final column of the piece being moved
+     * @param finalj	 the final row of the piece being moved
      * @return 			 true if the move is valid, false otherwise
      */
     public abstract boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj);
