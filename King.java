@@ -1,24 +1,60 @@
 package chess;
 
+/**
+ * The King class represents a king chess piece on a chess board. 
+ * It extends the Board class and inherits its methods and properties.
+ */
 public class King extends Board
 {
-	//class variables
+	/**
+     * The color of the king. ("w" for White or "b" for Black).
+     */
 	private String color;
+	
+	/**
+     * The name of the king. Always "K" for king.
+     */
 	private String name;
 	
-	//for castling
+	/**
+     * Indicates if the white left castling is still possible.
+     */
 	public static boolean wlcast=true;
+	
+	/**
+     * Indicates if the white right castling is still possible.
+     */
 	public static boolean wrcast=true;
+	
+	/**
+     * Indicates if the black left castling is still possible.
+     */
 	public static boolean blcast=true;
+	
+	/**
+     * Indicates if the black right castling is still possible.
+     */
 	public static boolean brcast=true;
 	
-	//constructors
+	/**
+     * Creates a new King object with default values for color and name.
+     */
 	public King()
 	{
 		color="";
 		name="K";
 	}
 	
+	/**
+     * Checks if a move from the initial position to the final position of the king is valid.
+     * 
+     * @param board the chess board as a 2D array of Board objects
+     * @param initiali the initial column index of the king on the board
+     * @param initialj the initial row index of the king on the board
+     * @param finali the final column index of the king on the board
+     * @param finalj the final row index of the king on the board
+     * @return true if the move is valid, false otherwise
+     */
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
 		//checks if there are any pieces between Rook and King before castling
@@ -51,11 +87,7 @@ public class King extends Board
 			}
 			return status;
 		}
-		
-		
-		
-		
-		
+				
 		int iChange = finali-initiali;
 		int jChange = finalj-initialj;
 		if(iChange*jChange==0 && Math.abs(iChange+jChange)==1) {
@@ -67,6 +99,11 @@ public class King extends Board
 		return false;
 	}
 	
+	/**
+	 * Creates a new King object with the same color and name as the current King object.
+	 * @param obj the Board object to move the King to
+	 * @return a new King object with the same color and name as the current King object
+	 */
 	public Board move(Board obj)
 	{
 		obj = new King();
@@ -74,23 +111,38 @@ public class King extends Board
 		obj.setName(this.getName());
 		return obj;
 	}
-	
-	//set methods
+
+	/**
+	 * Sets the color of the King object.
+	 * @param c a String representing the color of the King object ("w" for white, "b" for black)
+	 */
 	public void setColor(String c)
 	{
 		color=c;
 	}
-	
+
+	/**
+	 * Sets the name of the King object.
+	 * @param n a String representing the name of the King object ("K")
+	 */
 	public void setName(String n)
 	{
 		name=n;
 	}
-	
-	//get methods
+
+	/**
+	 * Gets the color of the King object.
+	 * @return a String representing the color of the King object ("w" for white, "b" for black)
+	 */
 	public String getColor()
 	{
 		return color;
 	}
+
+	/**
+	 * Gets the name of the King object.
+	 * @return a String representing the name of the King object ("K")
+	 */
 	public String getName()
 	{
 		return name;

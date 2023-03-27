@@ -2,22 +2,46 @@ package chess;
 
 public class Pawn extends Board
 {
-	//class variables
+	/**
+     * The color of the pawn. ("w" for White or "b" for Black).
+     */
 	private String color;
-	private String name;
-	public static Boolean enPassant = false;
-	public static String enPassantPos;
 	
-	//constructors
+	/**
+     * The name of the pawn. Always "p" for Pawn.
+     */
+	private String name;
+	
+	/** 
+	 * Indicates whether en passant is possible. 
+	 */
+    public static Boolean enPassant = false;
+	
+    /** 
+     * The position where en passant is possible. 
+     */
+    public static String enPassantPos;
+	
+    /**
+     * Creates a new Pawn object with default values for color and name.
+     */
 	public Pawn()
 	{
 		color="";
 		name="p";
 	}
 	
+	/**
+	 * Checks if the move is valid for the Pawn
+	 * @param board the game board
+	 * @param initiali the initial column of the Pawn
+	 * @param initialj the initial row of the Pawn
+	 * @param finali the final column of the Pawn
+	 * @param finalj the final row of the Pawn
+	 * @return true if the move is valid, false otherwise
+	 */
 	public boolean isValid(Board[][] board, int initiali, int initialj, int finali, int finalj)
 	{
-		//Add Code to check out-of-board - TODO
 		if(this.getColor().equals("w")) {
 			int iChange = finali-initiali;
 			int jChange = finalj-initialj;
@@ -88,6 +112,11 @@ public class Pawn extends Board
 			}
 	}
 	
+	/**
+	 * Creates a new Pawn object with the same color and name as the current Pawn object.
+	 * @param obj the Board object to move the Pawn to
+	 * @return a new Pawn object with the same color and name as the current Pawn object
+	 */
 	public Board move(Board obj)
 	{
 		obj = new Pawn();
@@ -96,22 +125,37 @@ public class Pawn extends Board
 		return obj;
 	}
 	
-	//set methods
+	/**
+	 * Sets the color of the Pawn object.
+	 * @param c a String representing the color of the Pawn object ("w" for white, "b" for black)
+	 */
 	public void setColor(String c)
 	{
 		color=c;
 	}
 	
+	/**
+	 * Sets the name of the Pawn object.
+	 * @param n a String representing the name of the Pawn object ("p")
+	 */
 	public void setName (String n)
 	{
 		name=n;
 	}
 	
-	//get methods
+	/**
+	 * Gets the color of the Pawn object.
+	 * @return a String representing the color of the Pawn object ("w" for white, "b" for black)
+	 */
 	public String getColor()
 	{
 		return color;
 	}
+    
+	/**
+	 * Gets the name of the Pawn object.
+	 * @return a String representing the name of the Pawn object ("p")
+	 */
 	public String getName()
 	{
 		return name;
