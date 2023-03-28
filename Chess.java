@@ -436,7 +436,7 @@ public class Chess
 				{
 					System.out.println();
 					displayChessBoard(board);
-					System.out.println("\nCheckMate");
+					System.out.println("\n\nCheckMate");
 					if(c.equals("b"))
 						System.out.print("Black wins");
 					else
@@ -500,7 +500,7 @@ public class Chess
 	 * This method checks if any of the key of the provided color except King can be validly moved to the provided position
 	 * 
      * This is a helper function to CheckMate method. It helps in the following ways:
-     * It checks if the provided position is safe for the King or note
+     * It checks if the provided position is safe for the King or not
      * It also checks if the check giving Knight can be killed.
      * It also helps to see if any other key can be placed in between the check.
      * 
