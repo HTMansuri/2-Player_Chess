@@ -1,5 +1,12 @@
 package chess;
 
+/**
+ * The Pawn class represents a pawn chess piece on a chess board. 
+ * It extends the Board class and inherits its methods and properties.
+ * 
+ * @author Pavitra Patel, Huzaif Mansuri
+ */
+
 public class Pawn extends Board
 {
 	/**
