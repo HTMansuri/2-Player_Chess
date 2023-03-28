@@ -47,7 +47,8 @@ public class Chess
 		boolean checkMate = false;
 		
 		Scanner kb = new Scanner(System.in);
-		//Initialize a default/initial chess board
+		
+        //Initialize a default/initial chess board
 		Board[][] board = new Board[8][8];
 		initChessBoard(board);
 		
@@ -207,7 +208,6 @@ public class Chess
 					}
 					else if(King.wrcast && finali==0 && finalj==6)
 					{
-						System.out.println("wrcast" + King.wrcast + "wlcast" + King.wlcast);
 						//rook from 0,7 to 0,5
 						board[0][7] = null;
 						board[0][5] = new Rook();
@@ -349,7 +349,7 @@ public class Chess
 				check = check(board, bchecki, bcheckj);
 			}
 
-			if(check)
+			if(check && status)
 			{
 				status=false;
 				board[finali][finalj] = finalCache;
@@ -392,16 +392,16 @@ public class Chess
 				else
 					checkMate = checkMate(board, bchecki, bcheckj);
 				
-				if(checkMate && input.length()<=5 && !input.substring(6).equals("draw?"))
+				if(checkMate && input.length()<=5)
 				{
 					System.out.println();
 					displayChessBoard(board);
 					System.out.println("\nCheckMate");
 					if(c.equals("b"))
-						System.out.println("Black wins");
+						System.out.print("Black wins");
 					else
-						System.out.println("White wins");
-					
+						System.out.print("White wins");
+					break;
 				}
 			}
 						
