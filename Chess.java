@@ -47,7 +47,10 @@ public class Chess
 		boolean checkMate = false;
 		
 		Scanner kb = new Scanner(System.in);
-		//Initialize a default/initial chess board
+		
+		/**
+		 * Initialize initial chess board
+		 */
 		Board[][] board = new Board[8][8];
 		initChessBoard(board);
 		
@@ -101,7 +104,8 @@ public class Chess
 			}
 			
 			/**
-			 * 
+			 * Check if the move is being made inside the board.
+			 * If Not, Error message displayed
 			 */
 			if(input.equals("") || input.charAt(2)!=' ' || input.charAt(0)<'a' || input.charAt(0)>'h' || input.charAt(3)<'a' || input.charAt(3)>'h' || input.charAt(1)<'1' || input.charAt(1)>'8' || input.charAt(4)<'1' || input.charAt(4)>'8')
 			{
@@ -118,6 +122,11 @@ public class Chess
 			int finalj = input.charAt(3) - 97;
 			String promotionKey = null;
 			
+			/**
+			 * Identify Promotion Case, and perform promotion.
+			 * If the player mentioned the promotion key, promotion step is performed accordingly
+			 * Else Queen is promoted by default
+			 */
 			if((finali==7 && board[initiali][initialj].getName()=="p") || (finali==0 && board[initiali][initialj].getName()=="p"))
 			{
 				if(input.length()>=7)
@@ -125,6 +134,9 @@ public class Chess
 				else
 					promotionKey = "Q";
 			}
+			/**
+			 * Check for valid input!
+			 */
 			else if(input.length()>5 && !input.substring(6).equals("draw?"))
 			{
 				status=false;
@@ -135,6 +147,11 @@ public class Chess
 			Board finalCache = null;
 			Board initialCache = null;
 					
+			/**
+			 * Check for various cases when the move is not valid.
+			 * Set status=false if invalid move
+			 */
+			
 			if(board[initiali][initialj] == null)
 			{
 				status = false;
@@ -158,12 +175,16 @@ public class Chess
 							status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
 							if(status)
 							{
+								//Set enPassant to false, as soon as the opportunity round for enPassant gets completed
 								Pawn.enPassant = false;
 								Pawn.enPassantPos=null;
 							}
 						}
 						else
 						{
+							/**
+							 * Calls isValid method of a particular key object class to check validity of the move being performed.
+							 */
 							status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
 						}
 					}
@@ -175,20 +196,30 @@ public class Chess
 						status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
 						if(status) 
 						{
+							//Set enPassant to false, as soon as the opportunity round for enPassant gets completed
 							Pawn.enPassant = false;
 							Pawn.enPassantPos=null;
 						}
 					}
 					else
+						/**
+						 * Calls isValid method of a particular key object class to check validity of the move being performed.
+						 */
 						status = board[initiali][initialj].isValid(board, initiali, initialj, finali, finalj);
 				}
 			}
 			
 			if(status)
 			{
-				//castling check for move
+				/**
+				 * Checks for valid castling situation.
+				 */
 				if(((board[initiali][initialj].getColor().equals("w") && (King.wrcast || King.wlcast)) || (board[initiali][initialj].getColor().equals("b") && (King.blcast || King.brcast))) && board[initiali][initialj].getName().equals("K"))
 				{
+					/**
+					 * Identify castling side and color, and perform rook move accordingly.
+					 */
+					
 					if(King.wlcast && finali==0 && finalj==2)
 					{
 						//rook from 0,0 to 0,3
@@ -228,6 +259,9 @@ public class Chess
 					if(promotionKey==null)
 						promotionKey="Q";
 					String keyColor = board[initiali][initialj].getColor();
+					/**
+					 * Performs promotion of pawn.
+					 */
 					switch(promotionKey)
 					{
 						case "Q":
@@ -276,6 +310,7 @@ public class Chess
 					board[finali][finalj] = board[initiali][initialj].move(board[finali][finalj]);
 					initialCache = board[initiali][initialj];
 					board[initiali][initialj] = null;
+					
 					//keeps track of i and j for check identification
 					if(board[finali][finalj].getName().equals("K"))
 					{
@@ -293,7 +328,9 @@ public class Chess
 				}
 			}
 			
-			//if the rooks or kings move then castling is disabled
+			/**
+			 * if the rooks or kings move then castling is disabled.
+			 */
 			if(board[finali][finalj] != null)
 			{
 				if((board[finali][finalj].getColor().equals("w") && status==true))
@@ -336,7 +373,9 @@ public class Chess
 				}
 			}
 			
-			//region of check
+			/**
+			 * Here we check for the situation where the move of a player can lead its own king to be in Check.
+			 */
 			String c = "";
 			if(board[finali][finalj]!=null)
 				c = board[finali][finalj].getColor();
@@ -376,7 +415,9 @@ public class Chess
 				continue;
 			}
 			
-			//opposite move check
+			/**
+			 * Here we check for Check or CheckMate to the opponent player.
+			 */
 			if(c.equals("b"))
 			{
 				check = check(board, wchecki, wcheckj);
@@ -404,7 +445,10 @@ public class Chess
 					
 				}
 			}
-						
+			
+			/**
+			 * If a player asks for draw, "draw" is printed and game ends.
+			 */
 			if(status && input.length()>5 && input.substring(6).equals("draw?"))
 			{
 				System.out.print("draw");
@@ -424,8 +468,14 @@ public class Chess
 	
 	//methods
 	
-	//method that identifies check for given King - returns true if check is detected
-	//i will need to keep track of where my king is after any move to make this method work	
+	/**
+     * Checks if King at provided position is in Check.
+     * 
+     * @param board the chess board as a 2D array of Board objects
+     * @param kingi the initial column index of the king on the board
+     * @param kingj the initial row index of the king on the board
+     * @return true if the King is at Check at provided position, false otherwise
+     */
 	public static boolean check(Board[][] board, int kingi, int kingj)
 	{
 		boolean check;
@@ -446,6 +496,20 @@ public class Chess
 		}
 		return false;
 	}
+	
+	/**
+	 * This method checks if any of the key of the provided color except King can be validly moved to the provided position
+	 * 
+     * This is a helper function to CheckMate method. It helps in the following ways:
+     * It checks if the provided position is safe for the King or note
+     * It also checks if the check giving Knight can be killed.
+     * It also helps to see if any other key can be placed in between the check.
+     * 
+     * @param board the chess board as a 2D array of Board objects
+     * @param finali the final column index intended to reach on the board
+     * @param finalj the final row index intended to reach on the board
+     * @return true if the any key of provided color except King can be validly moved to provided position, false otherwise
+     */
 	public static boolean reachHere(Board[][] board, int finali, int finalj, String color)
 	{
 		boolean reached;
@@ -465,6 +529,14 @@ public class Chess
 		return false;
 	}
 	
+	/**
+     * Checks if King at provided position is CheckMated.
+     * 
+     * @param board the chess board as a 2D array of Board objects
+     * @param kingi the initial column index of the king on the board
+     * @param kingj the initial row index of the king on the board
+     * @return true if the King is CheckMated at provided position, false otherwise
+     */
 	public static boolean checkMate(Board[][] board, int kingi, int kingj) {
 		boolean checkMate;
 		for(int i=7; i>=0; i--)
@@ -535,7 +607,11 @@ public class Chess
 		return true;
 		}
 	
-	//Initialize a default/initial chess board
+	/**
+     * Initialize the default/initial Chess Board.
+     * 
+     * @param board the chess board as a 2D array of Board objects
+     */
 	public static void initChessBoard(Board[][] board)
 	{
 		board[0][0] = new Rook();
@@ -595,7 +671,11 @@ public class Chess
 	}
 	
 	
-	//Display current chess board
+	/**
+     * Display current chess board.
+     * 
+     * @param board the chess board as a 2D array of Board objects
+     */
 	public static void displayChessBoard(Board[][] board)
 	{
 		int vertIndex = 9;

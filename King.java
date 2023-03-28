@@ -3,6 +3,8 @@ package chess;
 /**
  * The King class represents a king chess piece on a chess board. 
  * It extends the Board class and inherits its methods and properties.
+ * 
+ * @author Pavitra Patel, Huzaif Mansuri
  */
 public class King extends Board
 {

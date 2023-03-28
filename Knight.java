@@ -3,6 +3,8 @@ package chess;
 /**
  * The Knight class represents a chess piece that moves in an L-shape and can jump over other pieces.
  * It extends the Board class.
+ * 
+ * @author Pavitra Patel, Huzaif Mansuri
  */
 public class Knight extends Board
 {
